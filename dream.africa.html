@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dream Africa Challenge | Powered by Aurion</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aurion: {
+                            black: '#05070A',
+                            dark: '#0B0F19',
+                            gold: '#D4AF37',
+                            goldLight: '#F2D265',
+                            emerald: '#00FF94',
+                            purple: '#6D28D9', // Added for the "Dream" contrast
+                        }
+                    },
+                    fontFamily: {
+                        headline: ['Orbitron', 'sans-serif'],
+                        body: ['Cormorant Garamond', 'serif'],
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F2D265 100%)',
+                        'purple-gradient': 'linear-gradient(135deg, #4C1D95 0%, #000000 100%)',
+                        'dark-gradient': 'linear-gradient(to bottom, #0B0F19, #000000)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        
+        /* Remove scrollbar completely */
+        html { width: 100%; height: 100%; margin: 0; padding: 0; overflow-x: hidden; -ms-overflow-style: none; scrollbar-width: none; }
+        html::-webkit-scrollbar { display: none; }
+        
+        body { width: 100%; height: 100%; margin: 0; padding: 0; overflow-x: hidden; -ms-overflow-style: none; scrollbar-width: none; }
+        body::-webkit-scrollbar { display: none; }
+        
+        body { 
+            background-color: #05070A; 
+            color: #E2E8F0; 
+            overflow-x: hidden; 
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .glass-panel {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: hidden;
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #D4AF37, #FFF5C2, #D4AF37);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+
+        .text-emerald-gradient {
+            background: linear-gradient(135deg, #00FF94, #a7f3d0, #00FF94);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+        }
+
+        /* Phone Mockup Glow */
+        .phone-glow {
+            box-shadow: 0 0 40px rgba(0, 255, 148, 0.15);
+        }
+
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+            .container { overflow-x: hidden; }
+            
+            section { overflow-x: hidden; }
+            
+            .grid { overflow-x: hidden; }
+            
+            h1, h2, h3, h4, h5, h6 { 
+                word-break: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+            
+            p { 
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body { font-size: 14px; }
+            
+            h1 { font-size: 2rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.25rem !important; }
+            
+            .max-w-5xl, .max-w-7xl, .max-w-6xl, .max-w-4xl { 
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .px-6 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            
+            .py-24 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+            .py-32 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            
+            .grid { overflow-x: hidden; }
+            
+            .gap-12 { gap: 1.5rem !important; }
+            .gap-8 { gap: 1rem !important; }
+            .gap-6 { gap: 0.75rem !important; }
+            
+            button, a[class*="bg-"] { 
+                min-height: 44px;
+                display: inline-block;
+                width: auto;
+                max-width: 100%;
+            }
+        }
+
+        /* Ensure Investment Section Cards Don't Overflow */
+        .investment-card {
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        /* Prevent any horizontal overflow */
+        section {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .transform.md\:-translate-y-4 { transform: translateY(0) !important; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2 cursor-pointer">
+                    <img src="logo.png" alt="Aurion Logo" class="w-8 h-8 rounded-full object-cover">
+                    <span class="font-headline text-xl tracking-widest text-white hidden sm:inline">WHAT'S YOUR DREAM ?</span>
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="font-body text-lg text-white hover:text-aurion-gold transition">The Idea</a>
+                    <a href="#tracks" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">The Offer</a>
+                    <a href="#team" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">About</a>
+                </div>
+
+                <div class="hidden md:flex">
+                    <a href="#enter" class="bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase transition duration-300 hover:bg-white font-bold">
+                        Join Us Now
+                    </a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden bg-aurion-dark border-t border-white/10 absolute w-full left-0 px-6 py-4 space-y-4">
+                <a href="#" class="block font-body text-lg text-white">The Idea</a>
+                <a href="#tracks" class="block font-body text-lg text-gray-300">The Offer</a>
+                <a href="#team" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">About</a>
+                <a href="#enter" class="block bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase text-center font-bold mt-4">Join Us Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden px-4 sm:px-6">
+        <div class="absolute inset-0 bg-grid"></div>
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] bg-gradient-to-tr from-aurion-gold/10 to-aurion-emerald/10 rounded-full blur-[120px]"></div>
+
+        <div class="relative max-w-5xl mx-auto text-center z-10">
+            <div class="fade-in-up mb-4">
+                <span class="font-headline text-xs tracking-[0.3em] text-gray-400 uppercase">Avantage Capital <span class="text-aurion-gold px-2">×</span> Aurion <span class="text-aurion-gold px-2">×</span> IEC</span>
+            </div>
+
+            <h1 class="fade-in-up text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-headline font-bold mb-8 leading-tight">
+                <span class="text-gray-500 text-2xl sm:text-3xl md:text-5xl block mb-2 font-light">"WE HEARD YOUR RANT."</span>
+                NOW SHOW US<br />
+                <span class="text-emerald-gradient">YOUR DREAM</span>
+            </h1>
+
+            <p class="fade-in-up font-body text-lg sm:text-xl md:text-3xl text-gray-200 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+                The 30 Days Rant let Africa speak the pain.<br>
+                <span class="text-aurion-gold italic">The Dream Africa Challenge</span> lets you pitch the future.
+            </p>
+
+            <div class="fade-in-up flex flex-col md:flex-row justify-center gap-6 mb-16">
+                <a href="#enter" class="bg-aurion-emerald text-black px-10 py-5 font-headline text-sm font-bold tracking-widest uppercase hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(0,255,148,0.3)]">
+                    JOIN NOW
+                </a>
+            </div>
+
+            <div class="fade-in-up grid grid-cols-1 md:grid-cols-3 gap-8 border-y border-white/10 py-10 max-w-4xl mx-auto bg-black/30 backdrop-blur-sm">
+                <div>
+                    <div class="font-headline text-3xl sm:text-4xl text-aurion-gold">$300M</div>
+                    <div class="font-body text-gray-400 text-sm uppercase tracking-wide mt-2">Total Support Pipeline</div>
+                </div>
+                <div>
+                    <div class="font-headline text-3xl sm:text-4xl text-white">10,000</div>
+                    <div class="font-body text-gray-400 text-sm uppercase tracking-wide mt-2">Wealth Managers</div>
+                </div>
+                <div>
+                    <div class="font-headline text-3xl sm:text-4xl text-white">1,000</div>
+                    <div class="font-body text-gray-400 text-sm uppercase tracking-wide mt-2">Businesses Funded</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-aurion-dark border-b border-white/5 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto text-center overflow-x-hidden">
+            <h2 class="font-headline text-2xl md:text-4xl text-white mb-8 break-words">THIS IS NOT A COMPETITION. <br><span class="text-gray-500">IT IS A CONTINENTAL GATEWAY.</span></h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 font-headline text-xs sm:text-sm tracking-widest text-aurion-gold overflow-x-hidden">
+                <div class="p-3 sm:p-4 border border-white/10 rounded bg-white/5 break-words"><i class="fa-solid fa-xmark mr-2"></i> NO GRANT FORMS</div>
+                <div class="p-3 sm:p-4 border border-white/10 rounded bg-white/5 break-words"><i class="fa-solid fa-xmark mr-2"></i> NO PITCH DECKS</div>
+                <div class="p-3 sm:p-4 border border-white/10 rounded bg-white/5 break-words"><i class="fa-solid fa-xmark mr-2"></i> NO LONG APPS</div>
+                <a href="https://wa.me/message/URVY3VKRG5XWD1" target="_blank" rel="noopener noreferrer" class="p-3 sm:p-4 border border-aurion-emerald/30 text-aurion-emerald rounded bg-aurion-emerald/10 break-words hover:border-aurion-emerald hover:bg-aurion-emerald/20 transition"><i class="fa-brands fa-whatsapp mr-2"></i> JUST WHATSAPP</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="tracks" class="py-24 bg-gradient-to-b from-aurion-dark to-black px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto overflow-x-hidden">
+            <h2 class="font-headline text-center text-4xl mb-16 fade-in-up">CHOOSE YOUR PATH</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+                <div class="fade-in-up p-8 sm:p-10 border border-white/10 rounded-sm hover:border-aurion-gold transition duration-500 group overflow-x-hidden">
+                    <i class="fa-solid fa-user-graduate text-5xl text-gray-600 group-hover:text-aurion-gold mb-6 transition"></i>
+                    <h3 class="font-headline text-2xl text-white mb-2 break-words">TRACK 1: WEALTH MANAGER</h3>
+                    <p class="text-aurion-gold font-mono text-sm mb-6">10,000 SLOTS AVAILABLE</p>
+                    <ul class="space-y-4 font-body text-lg text-gray-400">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-gold mr-3 flex-shrink-0"></i> <span>Wealth Manager Certificate (NFT)</span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-gold mr-3 flex-shrink-0"></i> <span>Access to Enterprise Deal Flow</span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-gold mr-3 flex-shrink-0"></i> <span>Revenue Share Opportunities</span></li>
+                    </ul>
+                </div>
+
+                <div class="fade-in-up p-8 sm:p-10 border border-aurion-emerald/30 bg-aurion-emerald/5 rounded-sm hover:border-aurion-emerald transition duration-500 group overflow-x-hidden">
+                    <i class="fa-solid fa-building text-5xl text-aurion-emerald mb-6 transition"></i>
+                    <h3 class="font-headline text-2xl text-white mb-2 break-words">TRACK 2: ENTERPRISE</h3>
+                    <p class="text-aurion-emerald font-mono text-sm mb-6">1,000 BUSINESSES FUNDED</p>
+                    <ul class="space-y-4 font-body text-lg text-gray-300">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-emerald mr-3 flex-shrink-0"></i> <span><strong>Up to $100,000 Funding</strong></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-emerald mr-3 flex-shrink-0"></i> <span>RWA Tokenization via Aurion</span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-aurion-emerald mr-3 flex-shrink-0"></i> <span>Institutional Partnerships</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="team" class="py-24 bg-aurion-dark border-t border-white/5 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto overflow-x-hidden">
+            <div class="grid md:grid-cols-2 gap-8 sm:gap-16">
+                <div class="fade-in-up">
+                    <h2 class="font-headline text-3xl text-white mb-8 break-words">THE ARCHITECTS</h2>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="font-headline text-aurion-gold text-lg mb-2">WHO IS VICTOR?</h4>
+                            <p class="font-body text-gray-300 text-lg leading-relaxed">
+                                Founder of Avantage Capital and Aurion Network. He is the architect behind Africa’s trillion-dollar funding pipeline, bridging the gap between global capital and African innovation.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-headline text-aurion-gold text-lg mb-2">WHO IS AVANTAGE CAPITAL?</h4>
+                            <p class="font-body text-gray-300 text-lg leading-relaxed">
+                                Africa’s institutional trading and capital engine. Avantage deploys proprietary capital into youth, enterprises, and real-world assets to ensure sustainable growth.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-headline text-aurion-gold text-lg mb-2">WHERE IS THE MONEY COMING FROM?</h4>
+                            <p class="font-body text-gray-300 text-lg leading-relaxed">
+                                A blend of Institutional Capital, Kingdom Wealth, CSR Initiatives, and Family Offices—all structured through the Aurion Network for transparency and liquidity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in-up bg-black border border-white/10 p-8 sm:p-10 rounded-xl flex flex-col justify-center text-center overflow-x-hidden">
+                    <i class="fa-regular fa-handshake text-6xl text-gray-600 mb-6"></i>
+                    <h3 class="font-headline text-2xl text-white mb-4 break-words">FUTURE COLLABORATIONS</h3>
+                    <p class="font-body text-lg sm:text-xl text-gray-400 mb-8">
+                        Are you a Government Agency, NGO, or Financial Institution looking to deploy capital efficiently across Africa?
+                    </p>
+                    <a href="mailto:partners@aurion.network" class="inline-block border border-white text-white px-6 sm:px-8 py-3 font-headline uppercase tracking-widest hover:bg-white hover:text-black transition text-sm sm:text-base break-words">
+                        Partner With Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-16 sm:pt-20 pb-8 sm:pb-10 px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto text-center overflow-x-hidden">
+            <div class="flex items-center justify-center space-x-2 mb-6">
+                <img src="logo.png" alt="Aurion Logo" class="w-6 h-6 rounded-full object-cover">
+                <span class="font-headline text-lg tracking-widest text-white"></span>
+            </div>
+            <p class="font-body text-gray-600 mb-8 text-sm sm:text-base">© 2026 What's Your Dream. All Rights Reserved.</p>
+            <div class="flex justify-center space-x-6 text-gray-500">
+                <a href="#" class="hover:text-white text-lg"><i class="fa-brands fa-twitter"></i></a>
+                <a href="https://ng.linkedin.com/in/avantage-capital-ltd-a75549342" target="_blank" rel="noopener noreferrer" class="hover:text-white text-lg"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/avantage_global?igsh=NHQ1d3Y0YWM4eW8w" target="_blank" rel="noopener noreferrer" class="hover:text-white text-lg"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/message/URVY3VKRG5XWD1" target="_blank" rel="noopener noreferrer" class="hover:text-white text-lg"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Neon loader + auto-apply neon classes
+        (function(){
+            const loader = document.getElementById('neon-loader');
+            function hideLoader(){ if(!loader) return; loader.classList.add('hidden'); }
+            function showLoader(){ if(!loader) return; loader.classList.remove('hidden'); }
+
+            // Ensure loader stays visible at least briefly for a nicer effect
+            window.addEventListener('load', ()=> { setTimeout(hideLoader, 500); });
+
+            // Show loader when navigating away or clicking internal links
+            window.addEventListener('beforeunload', showLoader);
+            document.addEventListener('click', (e)=>{
+                const a = e.target.closest('a');
+                if(!a) return;
+                const href = a.getAttribute('href');
+                if(!href) return;
+                if(href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('javascript:') || a.target === '_blank') return;
+                showLoader();
+            }, true);
+
+            // Apply neon classes to primary buttons and light-up to cards
+            function applyNeon(){
+                document.querySelectorAll('a, button, input[type="submit"]').forEach(el => {
+                    const cls = (el.className || '').toString();
+                    if(cls.includes('bg-aurion-emerald') || cls.match(/join/i) || cls.includes('bg-aurion-emerald/5') || cls.includes('bg-aurion-emerald/10')){
+                        el.classList.add('neon-btn','glow');
+                    }
+                });
+                document.querySelectorAll('.group, .p-8, .fade-in-up, .investment-card').forEach(el => el.classList.add('light-up'));
+            }
+
+            document.addEventListener('DOMContentLoaded', applyNeon);
+
+            // Hover effects for neon buttons
+            document.addEventListener('mouseover', (e) => {
+                const t = e.target.closest('.neon-btn'); if(t) t.classList.add('glow');
+            });
+            document.addEventListener('mouseout', (e) => {
+                const t = e.target.closest('.neon-btn'); if(t) t.classList.remove('glow');
+            });
+        })();
+    </script>
+
+    <script>
+        // Scroll Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+
+        // Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
