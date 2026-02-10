@@ -84,6 +84,51 @@
 
         @keyframes shine { to { background-position: 200% center; } }
 
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        #mobile-menu {
+            animation: slideDown 0.3s ease-out forwards;
+            z-index: 40;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #mobile-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        #mobile-menu {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        #mobile-menu.hidden {
+            animation: slideUp 0.3s ease-out forwards;
+            pointer-events: none;
+            display: none !important;
+        }
+
         .fade-in-up {
             opacity: 0;
             transform: translateY(30px);
@@ -158,9 +203,18 @@
         /* Ensure Investment Section Cards Don't Overflow */
         .investment-card {
             overflow-x: hidden;
-            overflow-y: auto;
+            overflow-y: hidden;
             max-width: 100%;
             width: 100%;
+        }
+
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         /* Prevent any horizontal overflow */
@@ -189,13 +243,13 @@
                 </div>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="#" class="font-body text-lg text-white hover:text-aurion-gold transition">The Idea</a>
+                    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="font-body text-lg text-white hover:text-aurion-gold transition">The Idea</a>
                     <a href="#tracks" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">The Offer</a>
                     <a href="#team" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">About</a>
                 </div>
 
                 <div class="hidden md:flex">
-                    <a href="#enter" class="bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase transition duration-300 hover:bg-white font-bold">
+                    <a href="https://tix.africa/discover/iec" class="bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase transition duration-300 hover:bg-white font-bold">
                         Join Us Now
                     </a>
                 </div>
@@ -205,11 +259,11 @@
                 </button>
             </div>
             
-            <div id="mobile-menu" class="hidden md:hidden bg-aurion-dark border-t border-white/10 absolute w-full left-0 px-6 py-4 space-y-4">
-                <a href="#" class="block font-body text-lg text-white">The Idea</a>
-                <a href="#tracks" class="block font-body text-lg text-gray-300">The Offer</a>
-                <a href="#team" class="font-body text-lg text-gray-300 hover:text-aurion-gold transition">About</a>
-                <a href="#enter" class="block bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase text-center font-bold mt-4">Join Us Now</a>
+            <div id="mobile-menu" class="hidden md:hidden bg-aurion-dark border-t border-white/10 absolute w-full left-0 right-0 px-6 py-4 space-y-4 top-20 shadow-lg">
+                <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="block font-body text-lg text-white hover:text-aurion-gold transition py-2">The Idea</a>
+                <a href="#tracks" class="block font-body text-lg text-gray-300 hover:text-aurion-gold transition py-2">The Offer</a>
+                <a href="#team" class="block font-body text-lg text-gray-300 hover:text-aurion-gold transition py-2">About</a>
+                <a href="https://tix.africa/discover/iec" class="block bg-aurion-emerald text-black px-6 py-2 font-headline text-xs tracking-widest uppercase text-center font-bold mt-4 hover:bg-white transition">Join Us Now</a>
             </div>
         </div>
     </nav>
@@ -235,7 +289,7 @@
             </p>
 
             <div class="fade-in-up flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <a href="#enter" class="bg-aurion-emerald text-black px-10 py-5 font-headline text-sm font-bold tracking-widest uppercase hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(0,255,148,0.3)]">
+                <a href="https://tix.africa/discover/iec" class="bg-aurion-emerald text-black px-10 py-5 font-headline text-sm font-bold tracking-widest uppercase hover:scale-105 transition duration-300 shadow-[0_0_30px_rgba(0,255,148,0.3)]">
                     JOIN NOW
                 </a>
             </div>
@@ -416,12 +470,44 @@
         }, observerOptions);
         document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 
-        // Mobile Menu Logic
+        // Mobile Menu Logic with Close-on-Outside-Click
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
+        let menuOpen = false;
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+        // Toggle menu
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !btn.contains(e.target) && menuOpen) {
+                menuOpen = false;
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Close menu when clicking on a link inside the menu
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Close menu on resize to large screens
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && menuOpen) {
+                menuOpen = false;
+                menu.classList.add('hidden');
+            }
         });
     </script>
 </body>
